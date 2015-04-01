@@ -13,9 +13,9 @@ url='http://hktkdy.com'
 
 m = urllib2.urlopen(url).read()  
 
-#f=open('333.html','w')
-#f.write(m)  
-#f.close()  
+f=open('333.html','w')
+f.write(m)  
+f.close()  
    
    
 #-------- 在这里输入参数 ------------------  
