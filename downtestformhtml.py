@@ -13,19 +13,33 @@ import  urllib2
 import re
    
 #定义百度函数  
-url='http://hktkdy.com/2015/03/31/201503/033105/'
+url='http://mindhacks.cn/2015/01/27/escape-from-your-shawshank-part5-2-platos-cave/'
 
 
 m = urllib2.urlopen(url).read().decode("UTF-8")  
-print m
 
+
+#p =re.compile(r'<p>.*</p>')  #删除评论信息，考虑用到列表项的删除。
+#t=p.findall(m)
+
+q=re.compile(r'<div class="comment-content"><p>.*</p>')
+comment=q.findall(m)
+print comment
 p =re.compile(r'<p>.*</p>')
-t=p.findall(m)
-print t
+content=p.findall(m)
+print content
+for i in range(len(content)):
+    for j in range(len(comment)):
+        
+    
+        if content[i]==comment[j]:
+            content[i]=[]
+     #   t[i]=[]
+#
+#t=filter(lamda e:e!=q.findall(t), t)
 
-
-f=open('3.txt','w')
-f.writelines(t)  
+f=open('5.html','w')
+f.writelines(content)  
 f.close()  
 print 'succeed'
    

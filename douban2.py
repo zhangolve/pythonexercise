@@ -27,6 +27,7 @@ content = urllib2.urlopen(url).read()
 content = content.decode("UTF-8").encode(type)  
 # 读取电影名称  
 match = re.findall(r' <a class="nbg".*?title=(.*?)>', content)  
+#print match
 # 读取分数  
 match2 = re.findall(r'<span class="rating_nums">(.*?)</span>', content)  
 #print len(match2)  

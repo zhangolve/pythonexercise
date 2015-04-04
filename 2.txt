@@ -1,1 +1,0 @@
- <p>我参考了<a href="http://jingyan.baidu.com/article/6181c3e068c801152ef153b8.html" target="_blank" rel="external">http://jingyan.baidu.com/article/6181c3e068c801152ef153b8.html</a>   这个资料发现最懒最快的方法就是改动其他人的URL文件属性及文件名称，真的很方便，至于为什么要制作URL文件，此文档也说得很不错：</p>

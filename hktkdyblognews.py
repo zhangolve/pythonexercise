@@ -63,7 +63,7 @@ def GetNews():
             #print item[1]
            # news.append([item[0], item[1]])
     
-    print news    
+       
     return news
     
 
@@ -73,7 +73,11 @@ if news:
         
     sub = 'WHUT教务处最新通知推送（Anotherhome提供）' + time.strftime('%Y-%m-%d',time.localtime(time.time()))
     content = 'WHUT最新通知:'
-    content=content+news[0]+news[1]+news[2]+news[-1]
+    for i in range(len(news)):   #这个使用len来获取list的长度的方法很关键。
+        
+        
+        
+        content=content+news[i]
     #for item in news:
        # content += item[2]
        # content += '  '
