@@ -1,0 +1,94 @@
+<style>
+.filter-container {
+    height: 64px;
+}
+
+#billdesc {
+    width:20%;
+    height: 34px;
+}
+
+#test{
+    width: 100%;
+    height: 30px;
+}
+option {
+    height: 30px;
+    line-height: 30px;
+}
+
+.baseline-align {
+    position: relative;
+    top: -28px;
+}
+
+.editOption{
+    width: 90%;
+    height: 26px;
+    position: relative;
+    top: -28px;
+    background: #E0F5FF;;
+    border: 0;
+    padding-left: 5px;
+}
+
+#export-form {
+    display: inline-block;
+}
+</style>
+
+<div style="padding-top:15px">
+<div class="alert alert-info">
+   <i class="far fa-question"></i> 协助运营，帮助分析和优化搜索结果。
+</div>
+<div class="alert alert-success">
+    <i class="far fa-chart-bar"></i>在过去{{hot_keyword_expired_month}}个月内，用户共有{{all_search_hits}}次商品搜索，共搜索{{all_value_count}}个词汇。
+</div>
+    <div class="alert alert-success filter-container">
+    <div style="display:inline-block" class="baseline-align-sign">搜索词频排行最高的前</div>
+    <div id="billdesc" style="display:inline-block">
+    <select id="test" name="count">
+      <option class="non" value="100">100</option>
+      <option class="non" value="1000">1000</option>
+      <option class="non" value="5000">5000</option>
+      <option class="editable" value="5000">自定义</option>
+    </select>
+    <input class="editOption" style="display:none;" placeholder="请输入" type="number" max="5000"></input>
+    </div>
+    <form action="/search/export-keyword-log?count=1000" method="GET" id="export-form">
+        <input id="count-result" style="display:none;" type="number" name="count" value="100"></input>
+    <button class="btn btn-info baseline-align-sign" id="export">导出</button>
+    </form>
+    </div>
+</div>
+
+<script>
+    var initialText = $('.editable').val();
+    $('.editOption').val(initialText);
+    $('#test').change(function(){
+    var selected = $('option:selected', this).attr('class');
+    if(selected == "editable"){
+      $('.editOption').show();
+      $('.baseline-align-sign').each(function(){
+          $(this).addClass('baseline-align')
+      })
+      $('.editOption').keyup(function(){
+          var editText = $('.editOption').val();
+          $('.editable').val(editText);
+          $('.editable').html(editText);
+      });
+    }else{
+      $('.editOption').hide();
+      $('.baseline-align-sign').each(function(){
+          $(this).removeClass('baseline-align')      
+      })
+    }
+    });
+    $('#export').on('click', function(e){
+        e.preventDefault();
+        count = $('[name=count]').val()
+        $('#count-result').attr('value',count)
+        $('#export-form').submit()
+    })
+</script>
+<!---->

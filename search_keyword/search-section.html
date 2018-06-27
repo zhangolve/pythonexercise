@@ -1,0 +1,43 @@
+{% extends 'master:operator-website-layout.html' %}
+
+{% block title %}搜索{% endblock %}
+
+{% block main %}
+<div>
+    <ul class="nav nav-tabs" id="search-section-nav">
+        <li>
+            <a href="/search/keyword" class="nav-item" id="keyword">关键词</a>
+        </li>
+        <li>
+            <a href="/search/keyword-log-exporter" class="nav-item" id="keyword-log-exporter">关键词频度表导出</a>
+        </li>
+    </ul>
+</div>
+<div id="search-nav-content-wrap">
+    <img id="loading" style="display: none" src="{{ static_url('operator/images/big-loading.gif') }}"/>
+    <div id="search-nav-content"></div>
+</div>
+<script type="text/javascript">
+$(document).ready(function () {
+    $('.nav-item').click(function (e) {
+        e.preventDefault();
+        $('#loading').show();
+        $('#search-nav-content').empty();
+        var url =$(this).attr('href');
+        veil.widget.get(url, function(html){
+                $('#loading').hide();
+                $('#search-nav-content').html(html);
+        });
+        $('#search-section-nav').find('li.active').removeClass('active');
+        $(this).parents('li').addClass('active');
+        window.history.pushState({}, 0, window.location.pathname + '?tab=' + $(this).attr('id'));
+    });
+    if(location.search.indexOf('tab=') !== -1) {
+        var tab = location.search.split('=')[1];
+        $('#' + tab).click();
+    } else {
+        $('#search-section-nav').find('li:first a').click();
+    }
+});
+</script>
+{% endblock %}
