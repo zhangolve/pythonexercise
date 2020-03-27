@@ -3,9 +3,14 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter
 from pathlib import Path
 import requests
 from bunch import bunchify 
+import shutil  
+import time
 
-path = '/mnt/c/Users/13823/Documents/leidian/Pictures/'
+path = '/mnt/c/Users/13823/Documents/leidian/original/'
 
+target_path = '/mnt/c/Users/13823/Documents/leidian/Pictures/'
+
+movie_list_path = '/mnt/c/Users/13823/Documents/leidian/Misc/movie_list.txt'
 
 def createLeft (height, width, otherText) :
     font_size=36
@@ -28,28 +33,29 @@ def createLeft (height, width, otherText) :
 def deal_with_images(path, otherText):
     images = [] # 先存储所有的图像的名称
     INFO_WIDTH = 200 
-    RESULT = 'result'
     if not os.path.exists(path):
         return
-    for file in os.listdir(path):     
-        if file != RESULT:
-            images.append(file)
+    for file in os.listdir(path):
+        images.append(file)
+    imagefile = []
     for i in range(len(images)): 
-        imagefile = []
         imagefile.append(Image.open(path+images[i])) 
-        for image in imagefile:
-            width, height = image.size
-            info = createLeft(height, INFO_WIDTH, otherText)
-            target = Image.new('RGB', (INFO_WIDTH+width, height))    
-            target.paste(info, (0, 0, INFO_WIDTH, height))# 将复制到target的指定位置中
-            target.paste(image, (INFO_WIDTH, 0, INFO_WIDTH+width, height))# 将image复制到target的指定位置中
-            quality_value = 100 # quality来指定生成图片的质量，范围是0～100
-            # print(Path(path + 'result/'+images[i]))
-            # print(type Path(path + 'result/'))
-            target_path = path + RESULT
-            if not os.path.exists(target_path):
-                os.mkdir(target_path)
-            target.save(os.path.join(target_path,  images[i]))
+    for i in range(len(imagefile)):
+        image = imagefile[i]
+        width, height = image.size
+        info = createLeft(height, INFO_WIDTH, otherText)
+        target = Image.new('RGB', (INFO_WIDTH+width, height))    
+        target.paste(info, (0, 0, INFO_WIDTH, height))# 将复制到target的指定位置中
+        target.paste(image, (INFO_WIDTH, 0, INFO_WIDTH+width, height))# 将image复制到target的指定位置中
+        quality_value = 100 # quality来指定生成图片的质量，范围是0～100
+        if not os.path.exists(target_path):
+            os.mkdir(target_path)
+        time.sleep(2)
+        movie_name = images[i].split('.')[0]
+        f=open(movie_list_path,'a')
+        f.write(movie_name+'\n')
+        f.close()
+        target.save(os.path.join(target_path,  images[i]))
 
 
 languages = ['english', 'chinese','cantonese', 'japanese', 'korean', 'french', 'others']
@@ -76,6 +82,13 @@ def dict2obj(data):
     return _d2o(data)
 
 
+print(target_path)
+if os.path.exists(target_path):
+    shutil.rmtree(target_path) 
+if os.path.exists(movie_list_path):
+    os.remove(movie_list_path)
+    f=open(movie_list_path,'w')
+    f.close()
 for language in languages:
     deal_with_images(path+language+'/', lang_to_text.get(language)) 
     # pass
